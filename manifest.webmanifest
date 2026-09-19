@@ -1,0 +1,18 @@
+{
+  "name": "Minimarket De Todito Palencia",
+  "short_name": "Minimarket De Todito",
+  "description": "Productos latinoamericanos y servicios en Palencia.",
+  "lang": "es-ES",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fffdf8",
+  "theme_color": "#075a43",
+  "icons": [
+    {
+      "src": "https://upload.wikimedia.org/wikipedia/commons/2/27/Circulo_verde.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

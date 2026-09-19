@@ -1,0 +1,28 @@
+SEO V6
+======
+
+Incluido:
+- Title y meta description orientados a "Minimarket De Todito Palencia".
+- Términos secundarios: minimarket latino, locutorio, recargas móviles, paquetería,
+  envíos de dinero, impresiones y fotocopias en Palencia.
+- Robots meta para indexación completa.
+- Open Graph y Twitter Card.
+- Datos estructurados Schema.org LocalBusiness + GroceryStore.
+- Dirección, teléfono, email, horarios, mapa y redes sociales en datos estructurados.
+- IDs semánticos para Productos, Países, Servicios, Nosotros, Reseñas, Visítanos y Contacto.
+- Navegación interna a las secciones, también en móvil.
+- robots.txt.
+- manifest.webmanifest.
+- Textos ALT descriptivos en imágenes relevantes.
+
+IMPORTANTE ANTES DE PUBLICAR:
+No se ha inventado un dominio. Cuando la web tenga su URL pública definitiva:
+1. Añadir <link rel="canonical" href="https://TU-DOMINIO/..."> en <head>.
+2. Cambiar og:image y twitter:image a URL absolutas.
+3. Crear sitemap.xml con URLs absolutas del dominio.
+4. Añadir en robots.txt: Sitemap: https://TU-DOMINIO/sitemap.xml
+5. Dar de alta el dominio en Google Search Console y enviar el sitemap.
+6. En Google Business Profile, enlazar la web oficial al mismo dominio.
+
+Los sitelinks ("secciones" debajo del resultado de Google) los decide Google algorítmicamente;
+la estructura de esta V6 facilita su descubrimiento, pero no se pueden forzar desde el HTML.

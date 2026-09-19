@@ -1,0 +1,226 @@
+[
+  {
+    "id": 1,
+    "nombre": "Havana Club Especial - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "",
+    "imagen": "assets/bebidas-adultos/bebida-28.png"
+  },
+  {
+    "id": 2,
+    "nombre": "Bellota La Extremeña - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Bellota La Extremeña, bebida elaborada por Destilerías Espronceda.",
+    "imagen": "assets/bebidas-adultos/bebida-27.png"
+  },
+  {
+    "id": 3,
+    "nombre": "Tinto | Don Simón - 1L",
+    "coleccion": "Vinos y Espumosos",
+    "precio": "",
+    "descripcion": "Don Simón en envase Tetra Pak con tapón de rosca.",
+    "imagen": "assets/bebidas-adultos/bebida-26.png"
+  },
+  {
+    "id": 4,
+    "nombre": "Freixenet Italian Rosé - 200 ml",
+    "coleccion": "Vinos y Espumosos",
+    "precio": "",
+    "descripcion": "rosado Freixenet Italian Rosé, presentado en botella de vidrio texturizado.",
+    "imagen": "assets/bebidas-adultos/bebida-25.png"
+  },
+  {
+    "id": 5,
+    "nombre": "Tinto | Bodegas Los Corzos - 75 cl",
+    "coleccion": "Vinos y Espumosos",
+    "precio": "",
+    "descripcion": "",
+    "imagen": "assets/bebidas-adultos/bebida-24.png"
+  },
+  {
+    "id": 6,
+    "nombre": "Martini Extra Dry - 1L",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Martini Extra Dry, elaborado según la tradición italiana de la marca. Ideal como aperitivo o para preparar cócteles.",
+    "imagen": "assets/bebidas-adultos/bebida-23.png"
+  },
+  {
+    "id": 7,
+    "nombre": "Johnnie Walker Black Label - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Johnnie Walker Black Label, envejecido.",
+    "imagen": "assets/bebidas-adultos/bebida-22.png"
+  },
+  {
+    "id": 8,
+    "nombre": "Johnnie Walker Red Label - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Johnnie Walker Red Label, de carácter intenso y especiado. Adecuado para tomar con hielo o en combinados.",
+    "imagen": "assets/bebidas-adultos/bebida-21.png"
+  },
+  {
+    "id": 9,
+    "nombre": "Buchanan’s Deluxe 12 Años - 1L",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "De perfil suave y equilibrado, ideal para tomar solo, con hielo o en combinados.",
+    "imagen": "assets/bebidas-adultos/bebida-20.png"
+  },
+  {
+    "id": 10,
+    "nombre": "Viejo de Caldas - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Viejo de Caldas, presentado en botella de 700 ml. Ron colombiano elaborado por la Industria Licorera de Caldas (ILC).",
+    "imagen": "assets/bebidas-adultos/bebida-19.png"
+  },
+  {
+    "id": 11,
+    "nombre": "Legendario de Cuba - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Legendario de Cuba, bebida espirituosa de origen cubano presentada en botella de 700 ml. De perfil dulce, suave y aromático, ideal para tomar solo, con hielo o en combinados.",
+    "imagen": "assets/bebidas-adultos/bebida-17.png"
+  },
+  {
+    "id": 12,
+    "nombre": "Amarillo de Manzanares Sin Azúcar - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Amarillo de Manzanares sin azúcar, bebida espirituosa colombiana de color amarillo característico y perfil anisado.",
+    "imagen": "assets/bebidas-adultos/bebida-18.png"
+  },
+  {
+    "id": 13,
+    "nombre": "Blanco del Valle Fiesta - 700 ml",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Blanco del Valle Fiesta en presentación de 700 ml. Una propuesta colombiana de perfil limpio y versátil, presentada en botella transparente con el característico diseño azul de la marca. Ideal para celebraciones y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-16.png"
+  },
+  {
+    "id": 14,
+    "nombre": "Veleiro Spiced Mamajuana - 70 cl",
+    "coleccion": "Licores y Destilados",
+    "precio": "",
+    "descripcion": "Veleiro Spiced Mamajuana, presentación de inspiración dominicana con un perfil especiado, aromático y de carácter intenso. Una propuesta tradicional del Caribe, ideal para quienes buscan sabores distintivos de República Dominicana.",
+    "imagen": "assets/bebidas-adultos/bebida-15.png"
+  },
+  {
+    "id": 15,
+    "nombre": "Mahou Cinco Estrellas en Lata - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Mahou Cinco Estrellas en lata. Una de las presentaciones más reconocidas de la marca madrileña Mahou, con un perfil equilibrado y refrescante. Ideal para servir bien fría y acompañar comidas, aperitivos y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-13.png"
+  },
+  {
+    "id": 16,
+    "nombre": "Mahou Clásica en Lata - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Mahou Clásica en lata. La presentación clásica de la reconocida marca madrileña Mahou, con su característico perfil refrescante. Ideal para servir bien fría y acompañar comidas, aperitivos y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-14.png"
+  },
+  {
+    "id": 17,
+    "nombre": "Águila Light en Botella - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Águila Light en botella de vidrio. Una presentación ligera y refrescante de la reconocida marca colombiana Águila. Ideal para disfrutar bien fría y acompañar aperitivos, comidas y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-12.png"
+  },
+  {
+    "id": 18,
+    "nombre": "Corona en Botella - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Corona en botella de vidrio de 330 ml. Una propuesta de origen mexicano, de sabor refrescante y presentación clásica. Ideal para servir bien fría y acompañar aperitivos, comidas y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-11.png"
+  },
+  {
+    "id": 19,
+    "nombre": "Estrella Galicia Especial en lata - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Estrella Galicia Especial en lata. Una propuesta clásica de la reconocida marca gallega, con carácter y sabor equilibrado. Ideal para servir bien fría y acompañar aperitivos, comidas y reuniones.",
+    "imagen": "assets/bebidas-adultos/bebida-10.png"
+  },
+  {
+    "id": 20,
+    "nombre": "Voll-Damm Doble Malta en lata - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Voll-Damm Doble Malta en lata. Una propuesta de sabor intenso y marcado carácter, presentada en su reconocible envase verde. Ideal para servir bien fría y acompañar distintos aperitivos y comidas.",
+    "imagen": "assets/bebidas-adultos/bebida-09.png"
+  },
+  {
+    "id": 21,
+    "nombre": "Corona en lata - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Corona en lata de 330 ml. Bebida de origen mexicano, ideal para disfrutar bien fría y acompañar comidas, reuniones y momentos especiales.",
+    "imagen": "assets/bebidas-adultos/bebida-08.png"
+  },
+  {
+    "id": 22,
+    "nombre": "Polar - 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Polar en botella de 330 ml. Una bebida refrescante de tradición venezolana, ideal para disfrutar bien fría y acompañar comidas, reuniones y momentos especiales.",
+    "imagen": "assets/bebidas-adultos/bebida-07.png"
+  },
+  {
+    "id": 23,
+    "nombre": "Andina Dorada - 300 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Andina Dorada en botella de 300 ml. Una bebida de sabor suave y refrescante, ideal para disfrutar bien fría y acompañar comidas, reuniones y momentos especiales.",
+    "imagen": "assets/bebidas-adultos/bebida-06.png"
+  },
+  {
+    "id": 24,
+    "nombre": "Extra | Corona – Pack 6 botellas 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Pack de 6 Corona Extra de 330 ml. Lager mexicana de sabor ligero, suave y refrescante, ideal para disfrutar bien fría.",
+    "imagen": "assets/bebidas-adultos/bebida-03.png"
+  },
+  {
+    "id": 25,
+    "nombre": "Especial | Estrella Galicia – Pack 6 latas",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Pack de 6 Estrella Galicia Especial. Cerveza lager de sabor equilibrado y refrescante, ideal para disfrutar bien fría.",
+    "imagen": "assets/bebidas-adultos/bebida-01.png"
+  },
+  {
+    "id": 26,
+    "nombre": "Dorada | Club Colombia – Pack 6 botellas 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Pack de 6 Club Colombia Dorada de 330 ml. Colombiana elaborada con cebada malteada, de sabor equilibrado y refrescante. Ideal para disfrutar bien fría.",
+    "imagen": "assets/bebidas-adultos/bebida-02.png"
+  },
+  {
+    "id": 27,
+    "nombre": "Cinco Estrellas | Mahou – Pack 8 latas 330 ml",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Pack de 8 Mahou Cinco Estrellas de 330 ml. Lager española de sabor equilibrado e intenso, ideal para disfrutar bien fría.",
+    "imagen": "assets/bebidas-adultos/bebida-04.png"
+  },
+  {
+    "id": 28,
+    "nombre": "Clásica | Mahou – Pack 6 latas",
+    "coleccion": "Cervezas",
+    "precio": "",
+    "descripcion": "Pack de 6 Mahou Clásica. Lager española de sabor suave, equilibrado y refrescante, ideal para disfrutar bien fría.",
+    "imagen": "assets/bebidas-adultos/bebida-05.png"
+  }
+]

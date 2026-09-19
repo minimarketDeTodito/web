@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bebidas para adultos | De Todito</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+:root{--dt:#075e54;--dt2:#0b7a68;--paper:#f7f4ee;--ink:#17201d}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif}
+.adult-top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #ddd;padding:14px 5%;display:flex;justify-content:space-between;align-items:center}
+.adult-top a{color:var(--dt);text-decoration:none;font-weight:700}
+.drink-hero{padding:54px 5% 30px;background:linear-gradient(90deg,rgba(5,24,19,.84),rgba(5,24,19,.30)),url("assets/bebidas-adultos/hero-tienda-de-todito.jpeg") center/cover no-repeat;color:white}
+.drink-hero .k{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}
+.drink-hero h1{font-size:clamp(2rem,5vw,4.5rem);margin:.25em 0}
+.drink-wrap{max-width:1200px;margin:auto;padding:28px 5% 110px}
+.filters{display:flex;gap:8px;overflow:auto;padding:4px 0 22px}
+.filters button{white-space:nowrap;border:1px solid #c8cbc7;background:white;border-radius:999px;padding:10px 16px;cursor:pointer}
+.filters button.active{background:var(--dt);color:white;border-color:var(--dt)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 18px #00000010;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#f4f4f2}
+.card .body{padding:15px;display:flex;flex-direction:column;gap:7px;flex:1}
+.cat{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:#66716c}
+.card h3{font-size:1rem;margin:0}.price{font-weight:800}
+.add{margin-top:auto;border:0;background:var(--dt);color:white;border-radius:10px;padding:11px;cursor:pointer;font-weight:700}
+.add.added{background:#e5f2ed;color:var(--dt)}
+.cartbar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:30;background:#073f37;color:white;border-radius:999px;padding:12px 18px;display:none;gap:16px;align-items:center;box-shadow:0 8px 30px #0004}
+.cartbar.show{display:flex}.cartbar button{background:white;color:#073f37;border:0;border-radius:999px;padding:9px 14px;font-weight:800}
+.drawer{position:fixed;inset:0;z-index:40;background:#0007;display:none;align-items:flex-end;justify-content:center}
+.drawer.open{display:flex}.panel{width:min(620px,100%);max-height:85vh;overflow:auto;background:white;border-radius:24px 24px 0 0;padding:22px}
+.row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
+.qty{display:flex;gap:8px;align-items:center}.qty button{width:30px;height:30px;border:1px solid #ddd;background:white;border-radius:8px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.actions button,.actions a{padding:13px;border-radius:10px;text-align:center;font-weight:800;text-decoration:none}
+.copy{background:var(--dt);color:white;border:0}.wa{border:1px solid var(--dt);color:var(--dt);background:white}
+.age{position:fixed;inset:0;z-index:100;background:#111d;display:flex;align-items:center;justify-content:center;padding:20px}
+.age.hide{display:none}.agebox{max-width:480px;background:#171714;color:white;padding:34px;border-radius:22px;text-align:center}.agebox .num{font-size:2rem;border:3px solid white;border-radius:50%;width:80px;height:80px;display:grid;place-items:center;margin:auto}.agebox button,.agebox a{display:block;width:100%;box-sizing:border-box;margin-top:12px;padding:13px;border-radius:10px}.agebox button{background:var(--dt2);color:white;border:0;font-weight:800}.agebox a{color:white;border:1px solid #777;text-decoration:none}
+.note{font-size:.78rem;color:#6d746f}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr);gap:10px}.drink-wrap{padding-left:12px;padding-right:12px}.card .body{padding:11px}.actions{grid-template-columns:1fr}}
+
+.detail{position:fixed;inset:0;z-index:60;background:#0008;display:none;align-items:center;justify-content:center;padding:18px}
+.detail.open{display:flex}.detailbox{background:white;width:min(760px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:20px;position:relative}
+.detailgrid{display:grid;grid-template-columns:1fr 1.2fr;gap:24px}.detailgrid img{width:100%;aspect-ratio:1/1;object-fit:contain;background:#f5f5f3;border-radius:16px}
+.detailclose{position:absolute;right:14px;top:14px;border:0;background:#eee;width:36px;height:36px;border-radius:50%}
+.detailadd{border:0;background:var(--dt);color:white;border-radius:10px;padding:12px 16px;font-weight:800}
+.card img,.card h3{cursor:pointer}
+@media(max-width:650px){.detailgrid{grid-template-columns:1fr}.detailbox{padding:14px}.detailgrid img{max-height:300px}}
+</style>
+</head><body>
+<div id="age" class="age"><div class="agebox"><div class="num">18+</div><h2>Contenido para mayores de 18 años</h2><p>Esta sección muestra bebidas alcohólicas disponibles en nuestra tienda. Confirma que eres mayor de edad para continuar.</p><button id="confirmAge">Soy mayor de 18 años</button><a href="index.html">Volver al inicio</a></div></div>
+<header class="adult-top"><a href="index.html">← De Todito</a><strong>Bebidas para adultos</strong></header>
+<section class="drink-hero"><div class="k">De Todito · selección en tienda</div><h1>Bebidas para adultos</h1><p>Cervezas, vinos, espumosos, rones, whiskies y otros destilados. Añade productos a tu selección y prepara tu consulta.</p></section>
+<main class="drink-wrap"><div class="filters"><button class="active" data-filter="Todos">Todos</button><button data-filter="Cervezas">Cervezas</button><button data-filter="Vinos y Espumosos">Vinos y Espumosos</button><button data-filter="Licores y Destilados">Licores y Destilados</button></div><div id="grid" class="grid"></div><p class="note">Disponibilidad y precios sujetos a confirmación en tienda. Venta exclusiva a mayores de 18 años.</p></main>
+<div id="cartbar" class="cartbar"><span id="cartCount">0 productos</span><button id="openCart">Ver selección →</button></div>
+<div id="detail" class="detail"><div class="detailbox"><button id="detailClose" class="detailclose">✕</button><div id="detailBody"></div></div></div>
+<div id="drawer" class="drawer"><div class="panel"><div style="display:flex;justify-content:space-between"><h2>Tu selección</h2><button id="closeCart">✕</button></div><div id="cartRows"></div><div class="actions"><button id="copyList" class="copy">Copiar lista</button><a id="openWA" class="wa" href="#" target="_blank">Abrir WhatsApp</a></div><button id="clearCart" style="margin-top:14px;border:0;background:none">Vaciar selección</button></div></div>
+<script>
+let products=[], filter='Todos', cart=JSON.parse(localStorage.getItem('dtAdultCart')||'{}');
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+if(localStorage.getItem('dtAdultAge')==='yes') $('#age').classList.add('hide');
+$('#confirmAge').onclick=()=>{localStorage.setItem('dtAdultAge','yes');$('#age').classList.add('hide')};
+fetch('data/bebidas-adultos.json').then(r=>r.json()).then(d=>{products=d;render()});
+function match(p){return filter==='Todos'||p.coleccion.includes(filter)}
+function render(){let g=$('#grid');g.innerHTML='';products.filter(match).forEach(p=>{let q=cart[p.id]||0,c=document.createElement('article');c.className='card';c.innerHTML=`<img loading="lazy" src="${p.imagen}" alt="${p.nombre}"><div class="body"><div class="cat">${p.coleccion}</div><h3>${p.nombre}</h3>${p.precio?`<div class="price">${p.precio}</div>`:''}<button class="add ${q?'added':''}">${q?'✓ Añadido':'🛒 Añadir al carrito'}</button></div>`;c.querySelector('img').onclick=()=>openDetail(p);c.querySelector('h3').onclick=()=>openDetail(p);c.querySelector('.add').onclick=()=>{cart[p.id]=(cart[p.id]||0)+1;save();render()};g.appendChild(c)});updateBar()}
+function openDetail(p){$('#detailBody').innerHTML=`<div class="detailgrid"><img src="${p.imagen}" alt="${p.nombre}"><div><div class="cat">${p.coleccion}</div><h2>${p.nombre}</h2>${p.precio?`<div class="price">${p.precio}</div>`:''}${p.descripcion?`<p>${p.descripcion}</p>`:''}<p class="note">Disponibilidad y precio sujetos a confirmación en tienda.</p><button class="detailadd">Añadir a mi selección</button></div></div>`;$('#detailBody .detailadd').onclick=()=>{cart[p.id]=(cart[p.id]||0)+1;save();render();$('#detail').classList.remove('open')};$('#detail').classList.add('open')}
+$('#detailClose').onclick=()=>$('#detail').classList.remove('open');
+$$('.filters button').forEach(b=>b.onclick=()=>{$$('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render()});
+function save(){localStorage.setItem('dtAdultCart',JSON.stringify(cart));updateBar()}
+function total(){return Object.values(cart).reduce((a,b)=>a+b,0)}
+function updateBar(){let n=total();$('#cartCount').textContent=`${n} producto${n===1?'':'s'}`;$('#cartbar').classList.toggle('show',n>0)}
+function cartText(){let lines=['Hola, estoy interesado/a en consultar la disponibilidad de estas bebidas de De Todito:',''];products.forEach(p=>{if(cart[p.id])lines.push(`• ${cart[p.id]} × ${p.nombre}`)});lines.push('','Gracias.');return lines.join('\n')}
+function drawCart(){let box=$('#cartRows');box.innerHTML='';products.forEach(p=>{let q=cart[p.id];if(!q)return;let r=document.createElement('div');r.className='row';r.innerHTML=`<div><strong>${p.nombre}</strong></div><div class="qty"><button class="minus">−</button><span>${q}</span><button class="plus">+</button></div><button class="del">🗑</button>`;r.querySelector('.minus').onclick=()=>{if(--cart[p.id]<=0)delete cart[p.id];save();drawCart();render()};r.querySelector('.plus').onclick=()=>{cart[p.id]++;save();drawCart();render()};r.querySelector('.del').onclick=()=>{delete cart[p.id];save();drawCart();render()};box.appendChild(r)});$('#openWA').href='https://wa.me/?text='+encodeURIComponent(cartText())}
+$('#openCart').onclick=()=>{drawCart();$('#drawer').classList.add('open')};$('#closeCart').onclick=()=>$('#drawer').classList.remove('open');
+$('#clearCart').onclick=()=>{cart={};save();drawCart();render()};
+$('#copyList').onclick=async()=>{await navigator.clipboard.writeText(cartText());$('#copyList').textContent='✓ Lista copiada';setTimeout(()=>$('#copyList').textContent='Copiar lista',1800)};
+</script></body></html>
