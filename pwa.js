@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}const path=location.pathname;document.querySelectorAll('.app-bottom-nav a').forEach(a=>{if(path.endsWith('vintedgo.html')&&a.dataset.tab==='vinted'||!path.endsWith('vintedgo.html')&&a.dataset.tab==='inicio')a.classList.add('active')});

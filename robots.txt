@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+Disallow: /vintedgo-admin.html
+Sitemap: https://minimarketdetodito.github.io/web/sitemap.xml

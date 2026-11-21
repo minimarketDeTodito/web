@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#075542"><title>Recogida de paquetes en Palencia | Minimarket De Todito</title><link rel="stylesheet" href="vintedgo-client-v8.css?v=8.0"><meta name="description" content="Avisa de cuándo recogerás tu paquete en Minimarket De Todito, Palencia, y consulta su estado con tu código privado.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://minimarketdetodito.github.io/web/vintedgo.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:site_name" content="Minimarket De Todito">
+<meta property="og:title" content="Recogida de paquetes en Palencia | De Todito">
+<meta property="og:description" content="Avisa de tu visita y consulta el estado de preparación de tu paquete en De Todito.">
+<meta property="og:url" content="https://minimarketdetodito.github.io/web/vintedgo.html">
+<meta property="og:image" content="https://minimarketdetodito.github.io/web/assets/hero-tienda.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+<div class="app">
+<header class="top"><a class="brand" href="index.html" aria-label="Volver a Minimarket De Todito"><span class="brand-logo">DT</span><span><strong>MINIMARKET DE TODITO</strong><small>Servicio de recogidas</small></span></a><a class="store-link" href="index.html">Volver a la tienda</a></header>
+<main class="main">
+<div class="welcome">
+<span class="eyebrow">📦 RECOGIDAS VINTEDGO</span>
+<h1>¿Qué necesitas hacer?</h1>
+<p>Te ayudamos a recoger tu paquete sin complicaciones.</p>
+<div class="choices">
+<button type="button" class="choice" id="startRequest"><span class="choice-icon">📦</span><span class="choice-copy"><strong>Avisar de mi recogida</strong><small>Voy a pasar a recoger un paquete</small></span><span class="arrow">→</span></button>
+<button type="button" class="choice" id="startLookup"><span class="choice-icon">🔎</span><span class="choice-copy"><strong>Consultar mi paquete</strong><small>Quiero saber si ya está preparado</small></span><span class="arrow">→</span></button>
+</div>
+<div class="how"><span>1 · Nos avisas</span><span>2 · Preparamos</span><span>3 · Recoges</span></div>
+</div>
+</main>
+<footer class="foot">La entrega se realiza siguiendo el procedimiento oficial del operador.</footer>
+</div>
+<dialog id="flowDialog" aria-labelledby="flowTitle">
+<div class="modal-shell">
+<div class="modal-head"><div><span id="flowEyebrow" class="eyebrow">RECOGIDA</span><h2 id="flowTitle">Nueva solicitud</h2></div><button type="button" id="closeFlow" class="icon-btn" aria-label="Cerrar y volver al inicio">✕</button></div>
+<div id="flowAlert" class="alert" role="alert" hidden></div>
+<div class="modal-content">
+<form id="requestForm" novalidate>
+<div class="progress"><span id="progressLabel">Paso 1 de 4</span><div class="progress-track"><span id="progressFill"></span></div></div>
+<section class="step" data-step="0"><h3>¿Quién recogerá el paquete?</h3><p>Escribe los datos que aparecen en tu recogida.</p><label>Nombre y apellidos<input name="name" maxlength="90" autocomplete="name" placeholder="Tu nombre completo" required minlength="2"></label><label>Código de recogida Vinted<input name="vintedCode" maxlength="100" placeholder="Código de Vinted" required minlength="2"></label></section>
+<section class="step" data-step="1" hidden><h3>¿Cuándo vendrás?</h3><p>Elige el día y el horario aproximado.</p><label>Fecha de recogida<input name="arrivalDate" type="date" required></label><label>Horario aproximado<select name="slot" required><option value="">Selecciona un horario</option><option>10:00–12:00</option><option>12:00–15:00</option><option>18:00–20:00</option><option>20:00–21:30</option></select></label></section>
+<section class="step" data-step="2" hidden><h3>Adjunta tu código QR</h3><p>Puedes usar una captura de pantalla de Vinted.</p><label class="upload">Seleccionar imagen QR<input name="qr" type="file" accept="image/png,image/jpeg,image/webp" required><small>PNG, JPG o WebP · Máximo 1 MB</small></label><p id="fileName" class="file-name"></p></section>
+<section class="step" data-step="3" hidden><h3>Comprueba tus datos</h3><p>Si todo es correcto, envía el aviso.</p><div id="reviewDetails" class="review"></div><label class="agree"><input type="checkbox" id="consent" required><span>Confirmo que los datos son correctos y he leído la <button type="button" class="text-link" id="openPrivacy">información de privacidad</button>.</span></label></section>
+<div class="actions"><button type="button" class="btn secondary" id="wizardBack">Atrás</button><button type="button" class="btn primary" id="wizardNext">Continuar →</button><button type="submit" class="btn primary" id="wizardSubmit" hidden>Confirmar y enviar</button></div>
+</form>
+<form id="checkForm" hidden><h3>¿Cómo va tu paquete?</h3><p>Introduce el código privado que recibiste al enviar el aviso. Empieza por <strong>DT-</strong>.</p><label>Código de seguimiento<input id="lookup" autocomplete="off" placeholder="DT-..." required></label><div class="actions"><button type="button" class="btn secondary" id="lookupBack">Volver</button><button type="submit" class="btn primary" id="lookupSubmit">Consultar estado</button></div></form>
+<div id="resultScreen" hidden aria-live="polite"></div>
+<div id="privacyScreen" hidden><h3>Información de privacidad</h3><p>Los datos facilitados se utilizan para gestionar la preparación de la recogida. El código y el QR son información sensible. La entrega exige la comprobación oficial del operador.</p><p><strong>Información pendiente de completar antes de admitir datos reales:</strong> completar el aviso legal con el responsable, contacto, base jurídica, plazo de conservación y ejercicio de derechos.</p><button type="button" class="btn secondary" id="privacyBack">Volver al formulario</button></div>
+</div></div></dialog>
+<script src="vintedgo-config.js?v=8.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=8.0"></script><script src="vintedgo-client-v8.js?v=8.0"></script>
+</body></html>

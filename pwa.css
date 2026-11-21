@@ -1,0 +1,18 @@
+
+:root{--app-green:#075a43;--app-gold:#f2b515}
+html{scroll-padding-top:85px}
+body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+.app-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:1000;background:#fff;border-top:1px solid #e6e8e5;display:flex;justify-content:space-around;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -5px 25px #0001}
+.app-bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:#52635e;font:600 11px system-ui,sans-serif;min-width:0}
+.app-bottom-nav a span{font-size:23px;line-height:27px}.app-bottom-nav a.active{color:#075a43}.app-bottom-nav a.active span{color:#e4a900}
+.floating-whatsapp{bottom:calc(100px + env(safe-area-inset-bottom))!important}
+@media(max-width:800px){body>div[style*="position:fixed"][style*="bottom:18px"]{bottom:calc(94px + env(safe-area-inset-bottom))!important;left:8px!important}body>div[style*="position:fixed"][style*="bottom:18px"] a{font-size:11px!important;padding:9px!important}}
+@media(min-width:900px){.app-bottom-nav{left:50%;transform:translateX(-50%);max-width:640px;border-radius:18px 18px 0 0}}
+
+/* Navegación inferior exclusiva para móviles y tabletas pequeñas */
+@media (min-width: 901px){
+ body{padding-bottom:0}
+ .app-bottom-nav{display:none!important}
+ .floating-whatsapp{bottom:22px!important}
+ body>div[style*="position:fixed"][style*="bottom:18px"]{bottom:18px!important}
+}

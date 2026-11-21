@@ -1,0 +1,31 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#073e34"><title>Personal · Centro de recogidas | De Todito</title><link rel="stylesheet" href="tpv-v4.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-compact-v9.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-refinado-v10.css?v=10.0"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+</head>
+<body class="staff-body">
+<header class="staff-header"><div class="brandmark">DT</div><div class="staff-brand"><strong>DE TODITO <span>· OPERACIONES</span></strong><small>Centro de recogidas de paquetes</small></div><div class="staff-header-right"><span class="live-dot"></span><span id="connectionLabel">Comprobando conexión</span><span class="version">v10.0</span></div></header>
+<main class="staff-shell">
+<section class="staff-title"><div><p class="eyebrow">GESTIÓN DIARIA · VINTEDGO</p><h1>Recogidas de paquetes</h1><p>Consulta las solicitudes y atiende cada paquete paso a paso.</p></div><div class="staff-date" id="todayDate"></div></section>
+<div id="adminWarning" class="system-notice" role="status" aria-live="polite">Preparando el sistema…</div>
+<section id="adminLogin" class="login-wrap" hidden><div class="login-card"><div class="login-icon">🔒</div><h2>Acceso del personal</h2><p>Introduce tus datos para comenzar tu turno.</p><form id="loginForm"><label>Correo electrónico<input type="email" name="email" autocomplete="username" required placeholder="tu@correo.com"></label><label>Contraseña<input type="password" name="password" autocomplete="current-password" required placeholder="Tu contraseña"></label><button class="btn btn-primary btn-block" type="submit" id="loginBtn">Entrar al centro de recogidas</button></form><p class="help-text">Acceso exclusivo para personal autorizado.</p></div></section>
+<section id="adminPanel" hidden>
+<div class="workspace-bar"><div class="signed-in"><span class="avatar">✓</span><div><strong>Personal conectado</strong><small id="adminUser"></small></div></div><div class="workspace-actions"><button id="refreshBtn" class="btn btn-secondary" type="button">↻ Actualizar</button><button id="logoutBtn" class="btn btn-outline" type="button">Cerrar sesión</button></div></div>
+<div id="adminSummary" class="kpi-grid" aria-label="Resumen de solicitudes"></div>
+<div class="desktop-workspace"><section class="work-panel"><div class="section-heading"><div><h2>Solicitudes</h2></div><span id="resultsCount" class="count-badge"></span></div>
+<div class="tools"><label class="search-wrap"><span>⌕</span><input id="requestSearch" type="search" placeholder="Buscar cliente o código Vinted" aria-label="Buscar solicitudes"></label><div class="filter-line"><button type="button" class="all-filter" data-filter="Todas">Todas las solicitudes</button><span class="filter-hint">Usa los contadores para filtrar por estado</span></div></div>
+<div id="requests" class="request-list" aria-live="polite"></div></section><aside id="desktopDetails" class="desktop-details" aria-label="Ficha del paquete"><div class="detail-placeholder"><span>📦</span><h2>Selecciona una solicitud</h2><p>Consulta sus datos y gestiona la recogida aquí, sin cambiar de pantalla.</p></div></aside></div>
+</section>
+<dialog id="packageDialog" class="operation-dialog" aria-labelledby="packageDialogTitle">
+  <div class="dialog-heading"><h2 id="packageDialogTitle">Ficha del paquete</h2><button type="button" id="closePackage" class="btn btn-secondary">Cerrar ✕</button></div>
+  <div id="packageDetails"></div>
+  <div class="dialog-actions"><button type="button" id="packageAction" class="btn btn-primary"></button></div>
+</dialog>
+<dialog id="confirmDialog" class="operation-dialog" aria-labelledby="confirmTitle">
+ <h2 id="confirmTitle">Confirmar acción</h2><p id="confirmMessage"></p>
+ <div class="dialog-actions"><button type="button" id="cancelAction" class="btn btn-secondary">Cancelar</button><button type="button" id="confirmAction" class="btn btn-primary">Confirmar</button></div>
+</dialog>
+</main>
+<footer class="staff-footer">De Todito · Herramienta interna de recogidas · La entrega debe verificarse en el sistema oficial del operador.</footer>
+<script src="vintedgo-config.js?v=9.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=9.0"></script><script src="vintedgo-admin.js?v=10.0"></script></body></html>
