@@ -64,3 +64,17 @@
  .qr-disclosure summary{cursor:pointer;font-weight:800}
  .qr-disclosure summary span{font-weight:400;font-size:11px;color:#718679}
 }
+
+/* V11.1: visor QR de pantalla completa */
+.qr-view-action{margin-top:12px}
+.qr-view-action .btn{min-height:44px;width:100%}
+#qrViewer{position:fixed;inset:0;margin:0;padding:0;border:0;border-radius:0;width:100%;height:100%;height:100dvh;max-width:none;max-height:none;background:#fff;color:#073e34;box-sizing:border-box;overflow:hidden}
+#qrViewer[open]{display:flex;flex-direction:column}
+#qrViewer::backdrop{background:#fff}
+.qr-viewer-toolbar,.qr-viewer-controls{display:flex;align-items:center;gap:8px;padding:10px 12px;flex:none;background:#fff;border-bottom:1px solid #dce9df}
+.qr-viewer-toolbar{justify-content:space-between;padding-top:max(10px,env(safe-area-inset-top))}
+.qr-viewer-toolbar h2{font-size:18px;margin:0}
+.qr-viewer-controls{justify-content:center}
+.qr-viewer-controls button{min-width:48px;min-height:44px}
+#qrViewerStage{flex:1;min-height:0;overflow:auto;background:white;padding:12px;box-sizing:border-box}
+#qrViewerImage{display:block;object-fit:contain;object-position:center;width:100%;height:100%;max-width:none;max-height:none;margin:0}

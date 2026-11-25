@@ -59,7 +59,7 @@ function openPackage(id){
  selectedId=id;
  document.querySelectorAll(".ticket").forEach(el=>el.classList.toggle("ticket-selected",el.dataset.open===id));
  const qr=/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(r.qr_data||"")?r.qr_data:"";
- $("#packageDetails").innerHTML=`<div class="detail-grid"><p><small>Cliente</small><strong>${esc(r.customer_name)}</strong></p><p><small>Estado</small><strong>${esc(r.status)}</strong></p><p><small>Código Vinted</small><strong>${esc(r.vinted_code)}</strong></p><p><small>Fecha y horario</small><strong>${readableDate(r.arrival_date)} · ${esc(r.slot)}</strong></p><p class="full"><small>Referencia privada</small><strong>${esc(r.public_code)}</strong></p></div><details class="qr-disclosure"><summary>Mostrar QR del cliente <span>Información sensible</span></summary><div class="qr-preview">${qr?`<img src="${qr}" alt="Código QR aportado por el cliente">`:"<p>QR no disponible</p>"}</div></details>`;
+ $("#packageDetails").innerHTML=`<div class="detail-grid"><p><small>Cliente</small><strong>${esc(r.customer_name)}</strong></p><p><small>Estado</small><strong>${esc(r.status)}</strong></p><p><small>Código Vinted</small><strong>${esc(r.vinted_code)}</strong></p><p><small>Fecha y horario</small><strong>${readableDate(r.arrival_date)} · ${esc(r.slot)}</strong></p><p class="full"><small>Referencia privada</small><strong>${esc(r.public_code)}</strong></p></div><div class="qr-view-action">${qr?'<button type="button" class="btn btn-secondary" data-view-qr>Ver QR</button>':'<p>QR no disponible</p>'}</div>`;
  const action=$("#packageAction");
  action.hidden=r.status==="Entregado";
  if(!action.hidden)action.textContent=actions[r.status]+" →";
@@ -68,6 +68,29 @@ function openPackage(id){
   const nextButton=$("#desktopNext");if(nextButton)nextButton.addEventListener("click",()=>startTransition());
  }else packageDialog.showModal();
 }
+const qrDialog=$("#qrViewer"),qrImage=$("#qrViewerImage"),qrStage=$("#qrViewerStage");
+let qrZoom=1;
+function setQrZoom(value){
+ qrZoom=Math.max(1,Math.min(4,value));
+ qrImage.style.width=(qrZoom*100)+"%";
+ qrImage.style.height=(qrZoom*100)+"%";
+ $("#qrZoomReset").textContent=Math.round(qrZoom*100)+"%";
+ $("#qrZoomOut").disabled=qrZoom===1;
+ $("#qrZoomIn").disabled=qrZoom===4;
+}
+document.addEventListener("click",event=>{
+ const trigger=event.target.closest("[data-view-qr]");if(!trigger)return;
+ const r=requests.find(x=>x.id===selectedId);
+ const qr=r?.qr_data||"";
+ if(!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(qr))return;
+ qrImage.src=qr;setQrZoom(1);qrDialog.showModal();
+ qrStage.scrollTop=0;qrStage.scrollLeft=0;
+});
+$("#qrViewerClose").addEventListener("click",()=>qrDialog.close());
+$("#qrZoomIn").addEventListener("click",()=>setQrZoom(qrZoom+.5));
+$("#qrZoomOut").addEventListener("click",()=>setQrZoom(qrZoom-.5));
+$("#qrZoomReset").addEventListener("click",()=>{setQrZoom(1);qrStage.scrollTop=0;qrStage.scrollLeft=0;});
+qrDialog.addEventListener("close",()=>{qrImage.removeAttribute("src");setQrZoom(1);});
 $("#closePackage").addEventListener("click",()=>packageDialog.close());
 function startTransition(){
  const r=requests.find(x=>x.id===selectedId);if(!r)return;

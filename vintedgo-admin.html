@@ -1,4 +1,4 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#073e34"><title>Personal · Centro de recogidas | De Todito</title><link rel="stylesheet" href="tpv-v4.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-compact-v9.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-refinado-v10.css?v=10.0"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#073e34"><title>Personal · Centro de recogidas | De Todito</title><link rel="stylesheet" href="tpv-v4.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-compact-v9.css?v=9.0"><link rel="stylesheet" href="vintedgo-admin-refinado-v10.css?v=11.1"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -26,6 +26,11 @@
  <h2 id="confirmTitle">Confirmar acción</h2><p id="confirmMessage"></p>
  <div class="dialog-actions"><button type="button" id="cancelAction" class="btn btn-secondary">Cancelar</button><button type="button" id="confirmAction" class="btn btn-primary">Confirmar</button></div>
 </dialog>
+<dialog id="qrViewer" aria-labelledby="qrViewerTitle">
+ <div class="qr-viewer-toolbar"><h2 id="qrViewerTitle">QR del cliente</h2><button type="button" id="qrViewerClose" class="btn btn-secondary" autofocus>Cerrar ✕</button></div>
+ <div class="qr-viewer-controls"><button type="button" id="qrZoomOut" class="btn btn-secondary" aria-label="Reducir zoom">−</button><button type="button" id="qrZoomReset" class="btn btn-secondary" aria-label="Restablecer zoom">100%</button><button type="button" id="qrZoomIn" class="btn btn-secondary" aria-label="Aumentar zoom">+</button></div>
+ <div id="qrViewerStage"><img id="qrViewerImage" alt="Código QR aportado por el cliente"></div>
+</dialog>
 </main>
 <footer class="staff-footer">De Todito · Herramienta interna de recogidas · La entrega debe verificarse en el sistema oficial del operador.</footer>
-<script src="vintedgo-config.js?v=9.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=9.0"></script><script src="vintedgo-admin.js?v=10.0"></script></body></html>
+<script src="vintedgo-config.js?v=9.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=9.0"></script><script src="vintedgo-admin.js?v=11.1"></script></body></html>
