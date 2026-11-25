@@ -12,17 +12,61 @@ function notify(message,type="info"){notice.textContent=message;notice.dataset.t
 function showLogin(){panel.hidden=true;login.hidden=false;$("#connectionLabel").textContent="Acceso seguro";}
 function showPanel(){login.hidden=true;panel.hidden=false;$("#connectionLabel").textContent="Sistema disponible";}
 function readableDate(v){if(!v)return "Sin fecha";const [y,m,d]=v.split("-");return `${d}/${m}/${y}`;}
+
+const incidentLabel={pending_customer:"Pendiente del cliente",pending_review:"Pendiente de revisión",resolved:"Resuelta"};
+function activeIncident(r){return (r.pickup_incidents||[]).find(i=>i.status!=="resolved");}
+function detailsV12(r){
+ const i=activeIncident(r);
+ const contacts=(r.pickup_contacts||[]).map(c=>{const v=String(c.contact_value);const href=c.contact_type==="phone"&&/^\+?\d+$/.test(v)?"tel:"+v:c.contact_type==="email"&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?"mailto:"+encodeURIComponent(v):"";return `<p>${c.contact_type==="phone"?"Teléfono":"Correo"}: ${href?`<a href="${esc(href)}">${esc(v)}</a>`:esc(v)}</p>`;}).join("");
+ return `<section class="v12-box"><h3>Contactos</h3>${contacts||"<p>No facilitados.</p>"}</section><section class="v12-box ${i?"v12-incident":""}"><h3>Incidencias</h3>${i?`<strong>${esc(incidentLabel[i.status])}</strong><p>${esc(i.reason)} · ${esc(i.customer_message)}</p><p>Avance logístico bloqueado.</p>`:"<p>Sin incidencia activa.</p>"}${r.status!=="Entregado"?`<button type="button" class="btn btn-secondary" data-incident>${i?"Gestionar incidencia":"Registrar incidencia"}</button>`:""}${(r.pickup_incidents||[]).length?'<button type="button" class="btn btn-secondary" data-history>Ver historial</button>':""}</section>`;
+}
+const incidentDialog=$("#incidentDialog"),incidentForm=$("#incidentForm");
+let incidentTarget=null;
+async function showIncident(historyOnly=false){
+ const r=requests.find(x=>x.id===selectedId);if(!r)return;
+ incidentTarget=r.id;const i=activeIncident(r);
+ incidentForm.hidden=historyOnly;
+ $("#incidentReason").value=i?.reason||"QR ilegible";if(!$("#incidentReason").value)$("#incidentReason").value="Otros motivos";
+ $("#incidentMessage").value=i?.customer_message||"";
+ $("#incidentCorrection").checked=!i;
+ $("#resolveIncident").hidden=!i||i.status==="pending_customer";
+ $("#incidentError").textContent="";
+ $("#incidentHistory").textContent="Cargando historial…";
+ if(!incidentDialog.open)incidentDialog.showModal();
+ const ids=(r.pickup_incidents||[]).map(x=>x.id);
+ if(!ids.length){$("#incidentHistory").textContent="Sin historial.";return;}
+ const {data,error}=await window.detoditoDB.from("pickup_incident_history").select("id,incident_id,event_type,message,created_at,previous_qr_data").in("incident_id",ids).order("created_at",{ascending:false});
+ if(incidentTarget!==r.id||!incidentDialog.open)return;
+ $("#incidentHistory").innerHTML=error?`<p>${esc(error.message)}</p>`:(data||[]).map(h=>`<div class="v12-box"><strong>${esc(({created:"Incidencia registrada",message_updated:"Mensaje actualizado",qr_replaced:"QR sustituido",correction_requested:"Corrección solicitada",resolved:"Resuelta"})[h.event_type]||h.event_type)}</strong><p>${esc(h.message)} · ${esc(new Date(h.created_at).toLocaleString("es-ES"))}</p>${/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(h.previous_qr_data||"")?`<details><summary>QR anterior</summary><img class="v12-oldqr" src="${esc(h.previous_qr_data)}" alt="QR anterior"></details>`:""}</div>`).join("")||"Sin historial.";
+}
+document.addEventListener("click",e=>{if(e.target.closest("[data-incident]"))showIncident();if(e.target.closest("[data-history]"))showIncident(true);});
+$("#closeIncident").onclick=()=>{if(!busy)incidentDialog.close();};
+incidentDialog.addEventListener("cancel",e=>{if(busy)e.preventDefault();});
+incidentDialog.addEventListener("close",()=>{$("#incidentHistory").replaceChildren();incidentTarget=null;});
+async function saveIncident(resolve=false){
+ if(busy)return;const r=requests.find(x=>x.id===incidentTarget);if(!r)return;const i=activeIncident(r);
+ if(resolve&&(!i||!window.confirm("¿Has comprobado el QR y deseas resolver la incidencia?")))return;
+ if(!resolve&&!incidentForm.reportValidity())return;
+ const reason=$("#incidentReason").value,message=$("#incidentMessage").value.trim(),correction=$("#incidentCorrection").checked;
+ const rpc=resolve?"resolve_pickup_incident":i?"update_pickup_incident":"create_pickup_incident";
+ const args=resolve?{p_incident_id:i.id,p_note:"Incidencia comprobada y resuelta"}:i?{p_incident_id:i.id,p_reason:reason,p_message:message,p_request_new_qr:correction}:{p_request_id:r.id,p_reason:reason,p_message:message,p_requires_new_qr:correction};
+ busy=true;incidentForm.querySelectorAll("button").forEach(b=>b.disabled=true);
+ try{const {error}=await window.detoditoDB.rpc(rpc,args);if(error)throw error;incidentDialog.close();busy=false;await refresh();}catch(e){$("#incidentError").textContent=e.message||"No se pudo guardar.";}finally{busy=false;incidentForm.querySelectorAll("button").forEach(b=>b.disabled=false);}
+}
+incidentForm.onsubmit=e=>{e.preventDefault();saveIncident();};
+$("#resolveIncident").onclick=()=>saveIncident(true);
+
 function render(){
  const summary=$("#adminSummary");
  summary.innerHTML=STATES.map((s,i)=>`<button type="button" class="kpi kpi-${i} ${activeFilter===s?"selected":""}" data-kpi="${s}"><span class="kpi-label">${["Nuevas","Por preparar","Listas para entregar","Entregadas"][i]}</span><strong>${requests.filter(r=>r.status===s).length}</strong><small>${["Necesitan revisión","Buscar y separar","Esperan al cliente","Ya finalizadas"][i]}</small></button>`).join("");
  summary.querySelectorAll("[data-kpi]").forEach(b=>b.addEventListener("click",()=>{activeFilter=b.dataset.kpi;render();}));
  document.querySelectorAll("[data-filter]").forEach(b=>{const on=b.dataset.filter===activeFilter;b.classList.toggle("selected",on);b.setAttribute("aria-pressed",String(on));});
- const rows=requests.filter(r=>(activeFilter==="Todas"||r.status===activeFilter)&&[r.customer_name,r.vinted_code,r.public_code].some(v=>String(v||"").toLocaleLowerCase("es").includes(search)));
+ const rows=requests.filter(r=>(activeFilter==="Todas"||(activeFilter==="Incidencias"?!!activeIncident(r):r.status===activeFilter))&&[r.customer_name,r.vinted_code,r.public_code].some(v=>String(v||"").toLocaleLowerCase("es").includes(search)));
  $("#resultsCount").textContent=`${rows.length} solicitud${rows.length===1?"":"es"}`;
  $("#requests").innerHTML=rows.length?rows.map(r=>{
   const finished=r.status==="Entregado";
   return `<article class="ticket ${selectedId===r.id?"ticket-selected":""}" data-open="${esc(r.id)}" tabindex="0" role="button" aria-label="Ver paquete de ${esc(r.customer_name)}">
-  <div class="ticket-top"><span class="ticket-status state-${esc(r.status)}">${esc(label[r.status]||r.status)}</span><span class="ticket-date">${readableDate(r.arrival_date)} · ${esc(r.slot)}</span></div>
+  <div class="ticket-top"><span class="ticket-status state-${esc(r.status)}">${esc(label[r.status]||r.status)}${activeIncident(r)?" · ⚠ Incidencia":""}</span><span class="ticket-date">${readableDate(r.arrival_date)} · ${esc(r.slot)}</span></div>
   <div class="ticket-body"><div class="ticket-customer"><h3>${esc(r.customer_name)}</h3><span class="ticket-code">${esc(r.vinted_code)}</span></div><span class="ticket-chevron" aria-hidden="true">›</span></div></article>`;
  }).join(""):`<div class="empty-state"><span>📦</span><h3>No hay solicitudes para mostrar</h3><p>Cambia el filtro o pulsa «Actualizar» para comprobar si hay nuevas recogidas.</p></div>`;
  document.querySelectorAll("[data-open]").forEach(b=>{b.addEventListener("click",()=>openPackage(b.dataset.open));b.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openPackage(b.dataset.open);}});});
@@ -31,7 +75,7 @@ async function refresh(){
  if(busy)return;
  $("#refreshBtn").disabled=true;notify("Actualizando solicitudes…");
  try{
-  const {data,error}=await window.detoditoDB.from("pickup_requests").select("id,public_code,customer_name,vinted_code,arrival_date,slot,qr_data,status,created_at").order("created_at",{ascending:false}).limit(200);
+  const {data,error}=await window.detoditoDB.from("pickup_requests").select("id,public_code,customer_name,vinted_code,arrival_date,slot,qr_data,status,created_at,pickup_contacts(contact_type,contact_value),pickup_incidents(id,reason,customer_message,status,requires_new_qr,created_at,updated_at)").order("created_at",{ascending:false}).limit(200);
   if(error)throw error;
   requests=(data||[]).sort((a,b)=>(priority[a.status]??9)-(priority[b.status]??9)||new Date(b.created_at)-new Date(a.created_at));
   render();
@@ -60,13 +104,14 @@ function openPackage(id){
  document.querySelectorAll(".ticket").forEach(el=>el.classList.toggle("ticket-selected",el.dataset.open===id));
  const qr=/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(r.qr_data||"")?r.qr_data:"";
  $("#packageDetails").innerHTML=`<div class="detail-grid"><p><small>Cliente</small><strong>${esc(r.customer_name)}</strong></p><p><small>Estado</small><strong>${esc(r.status)}</strong></p><p><small>Código Vinted</small><strong>${esc(r.vinted_code)}</strong></p><p><small>Fecha y horario</small><strong>${readableDate(r.arrival_date)} · ${esc(r.slot)}</strong></p><p class="full"><small>Referencia privada</small><strong>${esc(r.public_code)}</strong></p></div><div class="qr-view-action">${qr?'<button type="button" class="btn btn-secondary" data-view-qr>Ver QR</button>':'<p>QR no disponible</p>'}</div>`;
+ $("#packageDetails").innerHTML+=detailsV12(r);
  const action=$("#packageAction");
- action.hidden=r.status==="Entregado";
+ action.hidden=r.status==="Entregado"||!!activeIncident(r);
  if(!action.hidden)action.textContent=actions[r.status]+" →";
  if(desktopMode()){
-  desktopDetail.innerHTML=`<div class="detail-heading"><div><small>FICHA DEL PAQUETE</small><h2>${esc(r.customer_name)}</h2></div><span class="ticket-status state-${esc(r.status)}">${esc(label[r.status]||r.status)}</span></div>`+$("#packageDetails").innerHTML+`<div class="desktop-detail-actions">${action.hidden?"<p>✓ Recogida finalizada</p>":`<button id="desktopNext" type="button" class="btn btn-primary">${esc(actions[r.status])} →</button>`}</div>`;
+  desktopDetail.innerHTML=`<div class="detail-heading"><div><small>FICHA DEL PAQUETE</small><h2>${esc(r.customer_name)}</h2></div><span class="ticket-status state-${esc(r.status)}">${esc(label[r.status]||r.status)}</span></div>`+$("#packageDetails").innerHTML+`<div class="desktop-detail-actions">${action.hidden?(activeIncident(r)?"<p>⚠ Incidencia activa: resuélvela antes de continuar.</p>":"<p>✓ Recogida finalizada</p>"):`<button id="desktopNext" type="button" class="btn btn-primary">${esc(actions[r.status])} →</button>`}</div>`;
   const nextButton=$("#desktopNext");if(nextButton)nextButton.addEventListener("click",()=>startTransition());
- }else packageDialog.showModal();
+ }else if(!packageDialog.open)packageDialog.showModal();
 }
 const qrDialog=$("#qrViewer"),qrImage=$("#qrViewerImage"),qrStage=$("#qrViewerStage");
 let qrZoom=1;
@@ -134,7 +179,7 @@ $("#logoutBtn").addEventListener("click",async()=>{
  try{
   const {error}=await window.detoditoDB.auth.signOut({scope:"local"});
   if(error)throw error;
-  requests=[];selectedId=null;desktopDetail.innerHTML="<p>Sesión cerrada.</p>";$("#loginForm").reset();showLogin();notify("Sesión cerrada correctamente.","success");
+  requests=[];selectedId=null;$("#packageDetails").replaceChildren();$("#incidentHistory").replaceChildren();if(incidentDialog.open)incidentDialog.close();if(packageDialog.open)packageDialog.close();desktopDetail.innerHTML="<p>Sesión cerrada.</p>";$("#loginForm").reset();showLogin();notify("Sesión cerrada correctamente.","success");
  }catch(err){notify("No se pudo cerrar sesión: "+err.message,"error");}
  finally{b.disabled=false;b.textContent="Cerrar sesión";}
 });

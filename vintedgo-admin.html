@@ -3,9 +3,9 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-</head>
+<link rel="stylesheet" href="vintedgo-v12.css?v=12"></head>
 <body class="staff-body">
-<header class="staff-header"><div class="brandmark">DT</div><div class="staff-brand"><strong>DE TODITO <span>· OPERACIONES</span></strong><small>Centro de recogidas de paquetes</small></div><div class="staff-header-right"><span class="live-dot"></span><span id="connectionLabel">Comprobando conexión</span><span class="version">v10.0</span></div></header>
+<header class="staff-header"><div class="brandmark">DT</div><div class="staff-brand"><strong>DE TODITO <span>· OPERACIONES</span></strong><small>Centro de recogidas de paquetes</small></div><div class="staff-header-right"><span class="live-dot"></span><span id="connectionLabel">Comprobando conexión</span><span class="version">v12.0</span></div></header>
 <main class="staff-shell">
 <section class="staff-title"><div><p class="eyebrow">GESTIÓN DIARIA · VINTEDGO</p><h1>Recogidas de paquetes</h1><p>Consulta las solicitudes y atiende cada paquete paso a paso.</p></div><div class="staff-date" id="todayDate"></div></section>
 <div id="adminWarning" class="system-notice" role="status" aria-live="polite">Preparando el sistema…</div>
@@ -14,7 +14,7 @@
 <div class="workspace-bar"><div class="signed-in"><span class="avatar">✓</span><div><strong>Personal conectado</strong><small id="adminUser"></small></div></div><div class="workspace-actions"><button id="refreshBtn" class="btn btn-secondary" type="button">↻ Actualizar</button><button id="logoutBtn" class="btn btn-outline" type="button">Cerrar sesión</button></div></div>
 <div id="adminSummary" class="kpi-grid" aria-label="Resumen de solicitudes"></div>
 <div class="desktop-workspace"><section class="work-panel"><div class="section-heading"><div><h2>Solicitudes</h2></div><span id="resultsCount" class="count-badge"></span></div>
-<div class="tools"><label class="search-wrap"><span>⌕</span><input id="requestSearch" type="search" placeholder="Buscar cliente o código Vinted" aria-label="Buscar solicitudes"></label><div class="filter-line"><button type="button" class="all-filter" data-filter="Todas">Todas las solicitudes</button><span class="filter-hint">Usa los contadores para filtrar por estado</span></div></div>
+<div class="tools"><label class="search-wrap"><span>⌕</span><input id="requestSearch" type="search" placeholder="Buscar cliente o código Vinted" aria-label="Buscar solicitudes"></label><div class="filter-line"><button type="button" class="all-filter" data-filter="Todas">Todas las solicitudes</button><button type="button" class="all-filter" data-filter="Incidencias">Incidencias</button><span class="filter-hint">Usa los contadores para filtrar por estado</span></div></div>
 <div id="requests" class="request-list" aria-live="polite"></div></section><aside id="desktopDetails" class="desktop-details" aria-label="Ficha del paquete"><div class="detail-placeholder"><span>📦</span><h2>Selecciona una solicitud</h2><p>Consulta sus datos y gestiona la recogida aquí, sin cambiar de pantalla.</p></div></aside></div>
 </section>
 <dialog id="packageDialog" class="operation-dialog" aria-labelledby="packageDialogTitle">
@@ -31,6 +31,6 @@
  <div class="qr-viewer-controls"><button type="button" id="qrZoomOut" class="btn btn-secondary" aria-label="Reducir zoom">−</button><button type="button" id="qrZoomReset" class="btn btn-secondary" aria-label="Restablecer zoom">100%</button><button type="button" id="qrZoomIn" class="btn btn-secondary" aria-label="Aumentar zoom">+</button></div>
  <div id="qrViewerStage"><img id="qrViewerImage" alt="Código QR aportado por el cliente"></div>
 </dialog>
-</main>
+<dialog id="incidentDialog" class="operation-dialog"><div class="dialog-heading"><h2>Gestionar incidencia</h2><button type="button" class="btn btn-secondary" id="closeIncident">Cerrar</button></div><form id="incidentForm"><label>Motivo<select id="incidentReason"><option>QR ilegible</option><option>QR incorrecto</option><option>QR caducado</option><option>QR incompleto</option><option>Error al escanear</option><option>Otros motivos</option></select></label><label>Mensaje para el cliente<textarea id="incidentMessage" required minlength="2" maxlength="2000" rows="4"></textarea></label><label><input type="checkbox" id="incidentCorrection"> Solicitar nuevo QR</label><p id="incidentError" role="alert"></p><div class="dialog-actions"><button class="btn btn-primary" type="submit">Guardar incidencia</button><button class="btn btn-secondary" type="button" id="resolveIncident">Resolver incidencia</button></div></form><div id="incidentHistory"></div></dialog></main>
 <footer class="staff-footer">De Todito · Herramienta interna de recogidas · La entrega debe verificarse en el sistema oficial del operador.</footer>
-<script src="vintedgo-config.js?v=9.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=9.0"></script><script src="vintedgo-admin.js?v=11.1"></script></body></html>
+<script src="vintedgo-config.js?v=9.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=9.0"></script><script src="vintedgo-admin.js?v=12"></script></body></html>

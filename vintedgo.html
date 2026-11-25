@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="pwa-install.css?v=11.0"></head>
+<link rel="stylesheet" href="pwa-install.css?v=11.0"><link rel="stylesheet" href="vintedgo-v12.css?v=12.1"></head>
 <body>
 <div class="app">
 <header class="top"><a class="brand" href="index.html" aria-label="Volver a Minimarket De Todito"><span class="brand-logo">DT</span><span><strong>MINIMARKET DE TODITO</strong><small>Servicio de recogidas</small></span></a><a class="store-link" href="index.html">Volver a la tienda</a></header>
@@ -39,7 +39,7 @@
 <div class="modal-content">
 <form id="requestForm" novalidate>
 <div class="progress"><span id="progressLabel">Paso 1 de 4</span><div class="progress-track"><span id="progressFill"></span></div></div>
-<section class="step" data-step="0"><h3>¿Quién recogerá el paquete?</h3><p>Escribe los datos que aparecen en tu recogida.</p><label>Nombre y apellidos<input name="name" maxlength="90" autocomplete="name" placeholder="Tu nombre completo" required minlength="2"></label><label>Código de recogida Vinted<input name="vintedCode" maxlength="100" placeholder="Código de Vinted" required minlength="2"></label></section>
+<section class="step" data-step="0"><h3>¿Quién recogerá el paquete?</h3><p>Escribe los datos que aparecen en tu recogida.</p><label>Nombre y apellidos<input name="name" maxlength="90" autocomplete="name" placeholder="Tu nombre completo" required minlength="2"></label><label>Código de recogida Vinted<input name="vintedCode" maxlength="100" placeholder="Código de Vinted" required minlength="2"></label><div class="v12-box"><h3>¿Cómo podemos contactarte?</h3><p>Opcional. Añade teléfonos o correos para avisarte de incidencias.</p><div id="contacts"></div><button type="button" class="btn secondary" id="addContact">+ Añadir contacto</button></div></section>
 <section class="step" data-step="1" hidden><h3>¿Cuándo vendrás?</h3><p>Elige el día y el horario aproximado.</p><label>Fecha de recogida<input name="arrivalDate" type="date" required></label><label>Horario aproximado<select name="slot" required><option value="">Selecciona un horario</option><option>10:00–12:00</option><option>12:00–15:00</option><option>18:00–20:00</option><option>20:00–21:30</option></select></label></section>
 <section class="step" data-step="2" hidden><h3>Adjunta tu código QR</h3><p>Puedes usar una captura de pantalla de Vinted.</p><label class="upload">Seleccionar imagen QR<input name="qr" type="file" accept="image/png,image/jpeg,image/webp" required><small>PNG, JPG o WebP · Máximo 1 MB</small></label><p id="fileName" class="file-name"></p></section>
 <section class="step" data-step="3" hidden><h3>Comprueba tus datos</h3><p>Si todo es correcto, envía el aviso.</p><div id="reviewDetails" class="review"></div><label class="agree"><input type="checkbox" id="consent" required><span>Confirmo que los datos son correctos y he leído la <button type="button" class="text-link" id="openPrivacy">información de privacidad</button>.</span></label></section>
@@ -47,7 +47,7 @@
 </form>
 <form id="checkForm" hidden><h3>¿Cómo va tu paquete?</h3><p>Introduce el código privado que recibiste al enviar el aviso. Empieza por <strong>DT-</strong>.</p><label>Código de seguimiento<input id="lookup" autocomplete="off" placeholder="DT-..." required></label><div class="actions"><button type="button" class="btn secondary" id="lookupBack">Volver</button><button type="submit" class="btn primary" id="lookupSubmit">Consultar estado</button></div></form>
 <div id="resultScreen" hidden aria-live="polite"></div>
-<div id="privacyScreen" hidden><h3>Información de privacidad</h3><p>Los datos facilitados se utilizan para gestionar la preparación de la recogida. El código y el QR son información sensible. La entrega exige la comprobación oficial del operador.</p><p><strong>Información pendiente de completar antes de admitir datos reales:</strong> completar el aviso legal con el responsable, contacto, base jurídica, plazo de conservación y ejercicio de derechos.</p><button type="button" class="btn secondary" id="privacyBack">Volver al formulario</button></div>
+<div id="privacyScreen" hidden><h3>Información de privacidad</h3><p>Los datos facilitados se utilizan para gestionar la preparación de la recogida y contactar contigo si surge una incidencia. El código y el QR son información sensible. La entrega exige la comprobación oficial del operador.</p><p><strong>Información pendiente de completar antes de admitir datos reales:</strong> completar el aviso legal con el responsable, contacto, base jurídica, plazo de conservación y ejercicio de derechos.</p><button type="button" class="btn secondary" id="privacyBack">Volver al formulario</button></div>
 </div></div></dialog>
-<script src="vintedgo-config.js?v=8.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=8.0"></script><script src="vintedgo-client-v8.js?v=8.0"></script>
+<script src="vintedgo-config.js?v=8.0"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-client.js?v=8.0"></script><script src="vintedgo-client-v12-1.js?v=12.1"></script>
 <script src="pwa-install.js?v=11.0" defer></script></body></html>

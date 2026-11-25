@@ -6,6 +6,23 @@ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const dialog=$("#flowDialog"),form=$("#requestForm"),check=$("#checkForm"),result=$("#resultScreen"),privacy=$("#privacyScreen");
 const steps=[...document.querySelectorAll(".step")];
 let mode="request",step=0,busy=false,returnTo="request";
+
+const contacts=$("#contacts");
+function addContact(){
+ if(contacts.children.length>=10)return;
+ const row=document.createElement("div");row.className="v12-contact";
+ row.innerHTML='<label>Tipo<select><option value="phone">Teléfono</option><option value="email">Correo electrónico</option></select></label><label>Contacto<input type="tel" maxlength="30" required placeholder="+34"></label><button type="button" class="btn secondary">Eliminar</button>';
+ const select=row.querySelector("select"),input=row.querySelector("input");
+ select.onchange=()=>{input.type=select.value==="email"?"email":"tel";input.maxLength=select.value==="email"?254:30;input.placeholder=select.value==="email"?"correo@ejemplo.com":"+34";input.value="";};
+ row.querySelector("button").onclick=()=>{row.remove();$("#addContact").disabled=false;};
+ contacts.append(row);$("#addContact").disabled=contacts.children.length>=10;
+}
+$("#addContact").onclick=addContact;
+function contactData(){return [...contacts.children].map(r=>({type:r.querySelector("select").value,value:r.querySelector("input").value.trim()}));}
+function validContacts(){for(const c of contactData()){if(c.type==="phone"&&(!/^\+?[0-9 ()-]+$/.test(c.value)||!/^.{7,15}$/.test(c.value.replace(/\D/g,"")))){alertMessage("Introduce un teléfono válido.");return false;}if(c.type==="email"&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.value)){alertMessage("Introduce un correo válido.");return false;}}return true;}
+function incidentHTML(i){if(!i)return "";return `<section class="v12-box v12-incident" role="status"><h3>⚠ Incidencia activa en tu recogida</h3><strong>${esc(i.reason)}</strong><p>${esc(i.message)}</p><p>${i.status==="pending_customer"?"Pendiente de tu corrección":"Pendiente de revisión por la tienda"}</p>${i.can_replace_qr?'<label>Nuevo QR<input id="replacementQR" type="file" accept="image/png,image/jpeg,image/webp"></label><button type="button" class="btn primary" id="sendReplacement">Enviar nuevo QR</button>':""}</section>`;}
+function bindReplacement(code,i){const b=$("#sendReplacement");if(!b)return;b.onclick=async()=>{if(busy)return;const file=$("#replacementQR").files[0];if(!file||file.size>1048576||!["image/png","image/jpeg","image/webp"].includes(file.type)){alertMessage("Selecciona una imagen PNG, JPG o WebP de máximo 1 MB.");return;}busy=true;b.disabled=true;alertMessage("");try{const {error}=await window.detoditoDB.rpc("replace_pickup_qr",{p_code:code,p_incident_id:i.id,p_qr_data:await fileData(file)});if(error)throw error;screen("lookup");$("#lookup").value=code;busy=false;check.requestSubmit();}catch(e){alertMessage("No se pudo enviar: "+e.message);}finally{busy=false;b.disabled=false;}};}
+
 function alertMessage(message){$("#flowAlert").textContent=message;$("#flowAlert").hidden=!message;}
 function screen(name){
  form.hidden=name!=="request";check.hidden=name!=="lookup";result.hidden=name!=="result";privacy.hidden=name!=="privacy";
@@ -33,7 +50,7 @@ function setStep(i){
  $("#wizardNext").hidden=i===3;$("#wizardSubmit").hidden=i!==3;
  if(i===3){
   const f=new FormData(form);
-  $("#reviewDetails").innerHTML=`<div><strong>Nombre:</strong> ${esc(f.get("name"))}</div><div><strong>Código Vinted:</strong> ${esc(f.get("vintedCode"))}</div><div><strong>Fecha:</strong> ${esc(f.get("arrivalDate"))}</div><div><strong>Horario:</strong> ${esc(f.get("slot"))}</div><div><strong>QR:</strong> ${esc(f.get("qr")?.name||"Sin imagen")}</div>`;
+  $("#reviewDetails").innerHTML=`<div><strong>Nombre:</strong> ${esc(f.get("name"))}</div><div><strong>Código Vinted:</strong> ${esc(f.get("vintedCode"))}</div><div><strong>Fecha:</strong> ${esc(f.get("arrivalDate"))}</div><div><strong>Horario:</strong> ${esc(f.get("slot"))}</div><div><strong>QR:</strong> ${esc(f.get("qr")?.name||"Sin imagen")}</div><div><strong>Contactos:</strong> ${esc(contactData().map(c=>c.value).join(" · ")||"No facilitados")}</div>`;
  }
  dialog.querySelector(".modal-content").scrollTop=0;
 }
@@ -41,6 +58,7 @@ function validStep(){
  for(const field of steps[step].querySelectorAll("input,select")){
   if(!field.reportValidity())return false;
  }
+ if(step===0&&!validContacts())return false;
  if(step===2){
   const file=form.elements.qr.files[0];
   if(!file||file.size>1048576||!["image/png","image/jpeg","image/webp"].includes(file.type)){
@@ -65,12 +83,12 @@ form.addEventListener("submit",async e=>{
  try{
   if(!window.detoditoReady)throw Error("No se ha podido conectar con el servicio. Revisa tu conexión.");
   const f=new FormData(form),file=f.get("qr");
-  const {data,error}=await window.detoditoDB.rpc("create_pickup",{p_name:String(f.get("name")||"").trim(),p_vinted_code:String(f.get("vintedCode")||"").trim(),p_arrival_date:String(f.get("arrivalDate")||""),p_slot:String(f.get("slot")||""),p_qr_data:await fileData(file)});
+  const {data,error}=await window.detoditoDB.rpc("create_pickup_v12",{p_name:String(f.get("name")||"").trim(),p_vinted_code:String(f.get("vintedCode")||"").trim(),p_arrival_date:String(f.get("arrivalDate")||""),p_slot:String(f.get("slot")||""),p_qr_data:await fileData(file),p_contacts:contactData()});
   if(error)throw error;
   const code=String(data);screen("result");result.innerHTML=resultHTML(code);
   $("#copyCode").addEventListener("click",()=>{if(navigator.clipboard?.writeText)navigator.clipboard.writeText(code).then(()=>$("#copyCode").textContent="¡Copiado!").catch(()=>alertMessage("Selecciona y copia el código manualmente."));else alertMessage("Selecciona y copia el código manualmente.");});
   $("#goStatus").addEventListener("click",()=>{$("#lookup").value=code;screen("lookup");});
-  form.reset();$("#fileName").textContent="";setStep(0);
+  form.reset();contacts.replaceChildren();$("#addContact").disabled=false;$("#fileName").textContent="";setStep(0);
  }catch(err){alertMessage("No se pudo enviar el aviso: "+(err.message||"Inténtalo de nuevo."));}
  finally{busy=false;btn.disabled=false;btn.textContent="Confirmar y enviar";}
 });
@@ -83,15 +101,17 @@ check.addEventListener("submit",async e=>{
   const code=$("#lookup").value.trim().toUpperCase();
   const {data,error}=await window.detoditoDB.rpc("lookup_pickup",{p_code:code});
   if(error)throw error;
+  if(data && (typeof data.has_incident!=="boolean" || !Object.prototype.hasOwnProperty.call(data,"incident") || (data.has_incident && !data.incident))) throw Error("El servicio no ha devuelto la información de incidencias. Inténtalo de nuevo o contacta con la tienda.");
   screen("result");
   if(!data){
    result.innerHTML=`<h3>No encontramos tu solicitud</h3><p>Comprueba que has escrito el código privado completo, que empieza por DT-.</p><button class="btn primary" type="button" id="retryLookup">Volver a intentarlo</button>`;
   }else{
    const n=STATES.indexOf(data.status);
    const messages={Enviado:"Hemos recibido tu aviso. Nuestro personal lo revisará.",Aprobado:"Hemos aprobado tu aviso. Aún estamos buscando tu paquete.",Preparado:"Tu paquete está localizado y preparado. Ven con el código oficial y la documentación necesaria.",Entregado:"La entrega ya se ha completado."};
-   result.innerHTML=`<h3>Estado de tu paquete</h3><span class="status-pill">${esc(data.status)}</span><p style="margin-top:20px">${esc(messages[data.status]||"Consulta de nuevo más tarde.")}</p><div class="status-steps">${STATES.map((s,i)=>`<span class="${i<=n?"done":""}">${esc(s)}</span>`).join("")}</div><button class="btn secondary" type="button" id="retryLookup">Consultar de nuevo</button>`;
+   result.innerHTML=`<h3>Estado de tu paquete</h3><span class="status-pill">${esc(data.status)}</span><p style="margin-top:20px">${esc(data.has_incident?"La recogida está temporalmente detenida hasta resolver la incidencia.":messages[data.status]||"Consulta de nuevo más tarde.")}</p>${incidentHTML(data.incident)}<div class="status-steps">${STATES.map((s,i)=>`<span class="${i<=n?"done":""}">${esc(s)}</span>`).join("")}</div><button class="btn secondary" type="button" id="retryLookup">Consultar de nuevo</button>`;
   }
-  $("#retryLookup").addEventListener("click",()=>screen("lookup"));
+  if(data?.incident)bindReplacement(code,data.incident);
+  $("#retryLookup").addEventListener("click",()=>{screen("lookup");if(data){$("#lookup").value=code;check.requestSubmit();}});
  }catch(err){alertMessage("No se pudo consultar el estado: "+(err.message||"Inténtalo de nuevo."));}
  finally{busy=false;btn.disabled=false;btn.textContent="Consultar estado";}
 });
